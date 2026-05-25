@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -10,466 +10,235 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --black: #0a0a0f;
-      --white: #f5f4f0;
-      --accent: #6c47ff;
-      --accent2: #ff5c87;
-      --muted: #8b8b99;
-      --card: #13131a;
+      --bg: #0a0a0f;
+      --surface: #13131a;
+      --border: rgba(255,255,255,0.08);
+      --text: #f0f0f5;
+      --muted: #7a7a90;
+      --accent: #6c63ff;
+      --accent2: #ff6584;
+      --tiktok: #010101;
     }
 
-    html { scroll-behavior: smooth; }
-
     body {
-      background: var(--black);
-      color: var(--white);
       font-family: 'DM Sans', sans-serif;
-      font-size: 16px;
-      line-height: 1.6;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── HEADER ── */
-    header {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
+    /* NAV */
+    nav {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 20px 48px;
+      padding: 1.2rem 2.5rem;
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
       background: rgba(10,10,15,0.85);
       backdrop-filter: blur(12px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
+      z-index: 100;
     }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.3rem; letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.5rem; text-decoration: none; color: var(--text); }
+    .logo-icon { width: 32px; height: 32px; background: var(--accent); border-radius: 8px; display: flex; align-items: center; justify-content: center; font-size: 1rem; color: #fff; font-weight: 800; }
+    .nav-links { display: flex; align-items: center; gap: 2rem; }
+    .nav-links a { color: var(--muted); text-decoration: none; font-size: 0.9rem; transition: color 0.2s; }
+    .nav-links a:hover { color: var(--text); }
+    .btn-login { background: var(--surface); border: 1px solid var(--border); color: var(--text); padding: 0.5rem 1.2rem; border-radius: 8px; font-size: 0.9rem; cursor: pointer; text-decoration: none; transition: background 0.2s; }
+    .btn-login:hover { background: rgba(255,255,255,0.08); }
 
-    .logo {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      text-decoration: none;
-    }
-
-    .logo-icon {
-      width: 36px; height: 36px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 18px;
-      color: white;
-    }
-
-    .logo-text {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 20px;
-      color: var(--white);
-    }
-
-    nav { display: flex; gap: 32px; align-items: center; }
-    nav a {
-      color: var(--muted);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.2s;
-    }
-    nav a:hover { color: var(--white); }
-
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 10px 22px;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      text-decoration: none;
-      cursor: pointer;
-      transition: all 0.2s;
-      border: none;
-    }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--accent), #8b6fff);
-      color: white;
-    }
-    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--white);
-      border: 1px solid rgba(255,255,255,0.2);
-    }
-    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
-
-    /* ── HERO ── */
+    /* HERO */
     .hero {
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
       align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 120px 24px 80px;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: -200px; left: 50%;
-      transform: translateX(-50%);
-      width: 800px; height: 800px;
-      background: radial-gradient(ellipse, rgba(108,71,255,0.18) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: 1px solid rgba(108,71,255,0.4);
-      background: rgba(108,71,255,0.1);
-      font-size: 13px;
-      color: #a78bfa;
-      margin-bottom: 32px;
-      animation: fadeUp 0.6s ease both;
-    }
-
-    .hero h1 {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: clamp(48px, 7vw, 88px);
-      line-height: 1.05;
-      letter-spacing: -2px;
-      margin-bottom: 24px;
-      animation: fadeUp 0.6s 0.1s ease both;
-    }
-
-    .hero h1 span {
-      background: linear-gradient(90deg, var(--accent), var(--accent2));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-
-    .hero p {
-      max-width: 520px;
-      color: var(--muted);
-      font-size: 18px;
-      margin-bottom: 40px;
-      animation: fadeUp 0.6s 0.2s ease both;
-    }
-
-    .hero-actions {
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeUp 0.6s 0.3s ease both;
-    }
-
-    .channels {
-      display: flex;
-      gap: 16px;
-      margin-top: 64px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeUp 0.6s 0.4s ease both;
-    }
-
-    .channel-chip {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 8px;
-      font-size: 13px;
-      color: var(--muted);
-    }
-    .channel-chip .dot { width: 8px; height: 8px; border-radius: 50%; }
-    .fb { background: #1877f2; }
-    .ig { background: linear-gradient(135deg,#f58529,#dd2a7b,#8134af); }
-    .wa { background: #25d366; }
-    .tg { background: #2aabee; }
-    .tt { background: #010101; border: 1px solid #555; }
-
-    /* ── LOGIN SECTION ── */
-    .login-section {
-      padding: 100px 24px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .login-card {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 20px;
-      padding: 48px;
-      width: 100%;
-      max-width: 420px;
-    }
-
-    .login-card h2 {
-      font-family: 'Syne', sans-serif;
-      font-size: 28px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-
-    .login-card p { color: var(--muted); font-size: 14px; margin-bottom: 32px; }
-
-    .form-group { margin-bottom: 16px; }
-    .form-group label {
-      display: block;
-      font-size: 13px;
-      color: var(--muted);
-      margin-bottom: 8px;
-    }
-    .form-group input {
-      width: 100%;
-      padding: 12px 16px;
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
-      border-radius: 8px;
-      color: var(--white);
-      font-family: 'DM Sans', sans-serif;
-      font-size: 14px;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-group input:focus { border-color: var(--accent); }
-    .form-group input::placeholder { color: rgba(255,255,255,0.25); }
-
-    .login-card .btn-primary { width: 100%; justify-content: center; padding: 13px; margin-top: 8px; font-size: 15px; }
-
-    .divider { text-align: center; color: var(--muted); font-size: 13px; margin: 20px 0; }
-
-    .tiktok-login-btn {
-      width: 100%;
-      justify-content: center;
-      background: #010101;
-      border: 1px solid #333;
-      color: white;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 12px 16px;
-      border-radius: 8px;
-      font-family: 'DM Sans', sans-serif;
-      font-weight: 500;
-      font-size: 14px;
-      cursor: pointer;
-      transition: all 0.2s;
-    }
-    .tiktok-login-btn:hover { border-color: #fff; background: #1a1a1a; }
-    .tiktok-login-btn svg { width: 18px; height: 18px; flex-shrink: 0; }
-
-    /* ── FEATURES ── */
-    .features {
-      padding: 100px 48px;
-      max-width: 1100px;
+      padding: 6rem 2.5rem 4rem;
+      max-width: 1200px;
       margin: 0 auto;
     }
+    .hero-tag { display: inline-block; background: rgba(108,99,255,0.15); color: var(--accent); border: 1px solid rgba(108,99,255,0.3); padding: 0.3rem 0.9rem; border-radius: 20px; font-size: 0.78rem; font-weight: 500; margin-bottom: 1.5rem; letter-spacing: 0.05em; text-transform: uppercase; }
+    h1 { font-family: 'Syne', sans-serif; font-size: clamp(2.2rem, 4vw, 3.4rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; margin-bottom: 1.2rem; }
+    h1 span { background: linear-gradient(135deg, var(--accent), var(--accent2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .hero p { color: var(--muted); font-size: 1.05rem; line-height: 1.7; margin-bottom: 2rem; }
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-primary { background: var(--accent); color: #fff; padding: 0.75rem 1.8rem; border-radius: 10px; font-size: 0.95rem; font-weight: 500; cursor: pointer; text-decoration: none; border: none; transition: opacity 0.2s, transform 0.15s; display: inline-block; }
+    .btn-primary:hover { opacity: 0.88; transform: translateY(-1px); }
+    .btn-secondary { background: transparent; color: var(--text); padding: 0.75rem 1.8rem; border-radius: 10px; font-size: 0.95rem; border: 1px solid var(--border); cursor: pointer; text-decoration: none; transition: background 0.2s; display: inline-block; }
+    .btn-secondary:hover { background: var(--surface); }
 
-    .section-label {
-      font-size: 12px;
-      text-transform: uppercase;
-      letter-spacing: 3px;
-      color: var(--accent);
-      font-weight: 600;
-      margin-bottom: 16px;
+    /* PLATFORM BADGES */
+    .platforms { display: flex; gap: 0.75rem; flex-wrap: wrap; margin-top: 2.5rem; }
+    .platform-badge { background: var(--surface); border: 1px solid var(--border); padding: 0.45rem 1rem; border-radius: 20px; font-size: 0.8rem; color: var(--muted); }
+
+    /* LOGIN CARD */
+    .login-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 2.5rem;
+      box-shadow: 0 0 60px rgba(108,99,255,0.08);
     }
-
-    .section-title {
-      font-family: 'Syne', sans-serif;
-      font-size: clamp(32px, 4vw, 48px);
-      font-weight: 800;
-      margin-bottom: 64px;
-      max-width: 500px;
+    .login-card h2 { font-family: 'Syne', sans-serif; font-size: 1.35rem; font-weight: 700; margin-bottom: 0.4rem; }
+    .login-card p { color: var(--muted); font-size: 0.88rem; margin-bottom: 1.8rem; }
+    .form-group { margin-bottom: 1rem; }
+    label { display: block; font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; }
+    input[type="email"], input[type="password"] {
+      width: 100%; padding: 0.7rem 1rem; background: var(--bg); border: 1px solid var(--border);
+      border-radius: 8px; color: var(--text); font-size: 0.9rem; font-family: inherit;
+      transition: border-color 0.2s; outline: none;
     }
-
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 24px;
+    input:focus { border-color: var(--accent); }
+    .btn-signin {
+      width: 100%; background: var(--accent); color: #fff; padding: 0.8rem; border-radius: 10px;
+      font-size: 0.95rem; font-weight: 500; cursor: pointer; border: none; font-family: inherit;
+      transition: opacity 0.2s; margin-top: 0.5rem;
     }
-
-    .feature-card {
-      background: var(--card);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 16px;
-      padding: 32px;
-      transition: border-color 0.2s, transform 0.2s;
+    .btn-signin:hover { opacity: 0.88; }
+    .divider { display: flex; align-items: center; gap: 1rem; margin: 1.2rem 0; color: var(--muted); font-size: 0.8rem; }
+    .divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .btn-tiktok {
+      width: 100%; background: var(--tiktok); color: #fff; padding: 0.8rem; border-radius: 10px;
+      font-size: 0.9rem; font-weight: 500; cursor: pointer; border: 1px solid rgba(255,255,255,0.12);
+      font-family: inherit; display: flex; align-items: center; justify-content: center; gap: 0.6rem;
+      transition: background 0.2s; text-decoration: none;
     }
-    .feature-card:hover { border-color: rgba(108,71,255,0.4); transform: translateY(-4px); }
+    .btn-tiktok:hover { background: #1a1a1a; }
+    .tiktok-icon { width: 20px; height: 20px; }
 
-    .feature-icon {
-      width: 44px; height: 44px;
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px;
-      margin-bottom: 20px;
-    }
+    /* FEATURES */
+    .features { padding: 5rem 2.5rem; max-width: 1200px; margin: 0 auto; }
+    .section-label { font-family: 'Syne', sans-serif; font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 1rem; }
+    .features h2 { font-family: 'Syne', sans-serif; font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 3rem; }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; }
+    .feature-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; padding: 1.8rem; transition: border-color 0.2s; }
+    .feature-card:hover { border-color: rgba(108,99,255,0.3); }
+    .feature-icon { font-size: 1.5rem; margin-bottom: 1rem; }
+    .feature-card h3 { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .feature-card p { color: var(--muted); font-size: 0.88rem; line-height: 1.6; }
 
-    .feature-card h3 {
-      font-family: 'Syne', sans-serif;
-      font-size: 18px;
-      font-weight: 700;
-      margin-bottom: 10px;
-    }
+    /* FOOTER */
+    footer { border-top: 1px solid var(--border); padding: 2rem 2.5rem; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem; }
+    footer a { color: var(--muted); text-decoration: none; font-size: 0.85rem; }
+    footer a:hover { color: var(--text); }
+    .footer-links { display: flex; gap: 1.5rem; }
 
-    .feature-card p { color: var(--muted); font-size: 14px; line-height: 1.7; }
-
-    /* ── FOOTER ── */
-    footer {
-      border-top: 1px solid rgba(255,255,255,0.07);
-      padding: 40px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 16px;
-    }
-
-    footer p { color: var(--muted); font-size: 13px; }
-    footer a { color: var(--muted); text-decoration: none; font-size: 13px; }
-    footer a:hover { color: var(--white); }
-    .footer-links { display: flex; gap: 24px; }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (max-width: 640px) {
-      header { padding: 16px 20px; }
-      nav { display: none; }
-      .features { padding: 60px 20px; }
-      footer { padding: 32px 20px; flex-direction: column; align-items: flex-start; }
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; gap: 2.5rem; padding: 3rem 1.2rem; }
+      nav { padding: 1rem 1.2rem; }
+      .nav-links { gap: 1rem; }
+      .features { padding: 3rem 1.2rem; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <a href="index.html" class="logo">
-    <div class="logo-icon">C</div>
-    <span class="logo-text">Communik</span>
-  </a>
   <nav>
-    <a href="#features">Features</a>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms of Service</a>
-  </nav>
-  <div style="display:flex;gap:10px;">
-    <a href="#login" class="btn btn-outline">Log in</a>
-    <a href="#login" class="btn btn-primary">Get started</a>
-  </div>
-</header>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-badge">
-    <span style="width:6px;height:6px;border-radius:50%;background:#6c47ff;display:inline-block;"></span>
-    Unified messaging platform
-  </div>
-  <h1>All your messages,<br><span>one inbox</span></h1>
-  <p>Communik brings together Facebook, Instagram, WhatsApp, Telegram and TikTok into a single, powerful inbox.</p>
-  <div class="hero-actions">
-    <a href="#login" class="btn btn-primary">Start for free →</a>
-    <a href="#features" class="btn btn-outline">Learn more</a>
-  </div>
-  <div class="channels">
-    <div class="channel-chip"><span class="dot fb"></span> Facebook</div>
-    <div class="channel-chip"><span class="dot ig"></span> Instagram</div>
-    <div class="channel-chip"><span class="dot wa"></span> WhatsApp</div>
-    <div class="channel-chip"><span class="dot tg"></span> Telegram</div>
-    <div class="channel-chip"><span class="dot tt"></span> TikTok</div>
-  </div>
-</section>
-
-<!-- LOGIN -->
-<section class="login-section" id="login">
-  <div class="login-card">
-    <div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
-      <div class="logo-icon">C</div>
-      <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:18px;">Communik</span>
-    </div>
-    <h2>Welcome back</h2>
-    <p>Sign in to your account to continue</p>
-
-    <div class="form-group">
-      <label>Email address</label>
-      <input type="email" placeholder="you@example.com" />
-    </div>
-    <div class="form-group">
-      <label>Password</label>
-      <input type="password" placeholder="••••••••" />
-    </div>
-    <button class="btn btn-primary">Sign in</button>
-
-    <div class="divider">— or continue with —</div>
-
-    <a href="https://gumptious-olga-anathematically.ngrok-free.dev/api/tiktok/auth" class="tiktok-login-btn">
-      <svg viewBox="0 0 24 24" fill="white">
-        <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.28 8.28 0 004.84 1.54V6.79a4.85 4.85 0 01-1.07-.1z"/>
-      </svg>
-      Continue with TikTok
+    <a href="index.html" class="logo">
+      <span class="logo-icon">C</span>
+      Communik
     </a>
-  </div>
-</section>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+      <a href="dashboard.html" class="btn-login">Log in</a>
+    </div>
+  </nav>
 
-<!-- FEATURES -->
-<section class="features" id="features">
-  <div class="section-label">Why Communik</div>
-  <h2 class="section-title">Everything in one place</h2>
-  <div class="features-grid">
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(108,71,255,0.15);">💬</div>
-      <h3>Unified Inbox</h3>
-      <p>Receive and reply to messages from all your social channels without switching tabs.</p>
+  <section class="hero">
+    <div>
+      <div class="hero-tag">Unified Messaging Platform</div>
+      <h1>All your messages,<br /><span>one inbox</span></h1>
+      <p>Communik brings together Facebook, Instagram, WhatsApp, Telegram and TikTok into a single, powerful inbox for your business.</p>
+      <div class="hero-cta">
+        <a href="dashboard.html" class="btn-primary">Start for free →</a>
+        <a href="#features" class="btn-secondary">Learn more</a>
+      </div>
+      <div class="platforms">
+        <span class="platform-badge">Facebook</span>
+        <span class="platform-badge">Instagram</span>
+        <span class="platform-badge">WhatsApp</span>
+        <span class="platform-badge">Telegram</span>
+        <span class="platform-badge">TikTok</span>
+      </div>
     </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(255,92,135,0.15);">🤖</div>
-      <h3>AI Chatbot</h3>
-      <p>Automate responses with an AI-powered chatbot that understands your customers.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(37,211,102,0.15);">📊</div>
-      <h3>Analytics</h3>
-      <p>Track message volume, response times, and channel performance in real time.</p>
-    </div>
-    <div class="feature-card">
-      <div class="feature-icon" style="background:rgba(42,171,238,0.15);">⚡</div>
-      <h3>Real-time</h3>
-      <p>Instant notifications and live updates powered by WebSockets via Pusher.</p>
-    </div>
-  </div>
-</section>
 
-<footer>
-  <a href="index.html" class="logo" style="text-decoration:none;">
-    <div class="logo-icon" style="width:28px;height:28px;font-size:14px;">C</div>
-    <span style="font-family:'Syne',sans-serif;font-weight:700;font-size:16px;color:#f5f4f0;">Communik</span>
-  </a>
-  <div class="footer-links">
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms of Service</a>
-  </div>
-  <p>© 2026 Communik. All rights reserved.</p>
-</footer>
+    <!-- LOGIN CARD -->
+    <div class="login-card" id="login">
+      <h2>Welcome back</h2>
+      <p>Sign in to your account to continue</p>
+      <div class="form-group">
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="you@example.com" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="••••••••" />
+      </div>
+      <button class="btn-signin" onclick="handleLogin()">Sign in</button>
+      <div class="divider">— or continue with —</div>
+      <a href="https://gumptious-olga-anathematically.ngrok-free.dev/api/tiktok/callback" class="btn-tiktok">
+        <svg class="tiktok-icon" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/>
+        </svg>
+        Continue with TikTok
+      </a>
+    </div>
+  </section>
+
+  <section class="features" id="features">
+    <div class="section-label">Why Communik</div>
+    <h2>Everything in one place</h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">💬</div>
+        <h3>Unified Inbox</h3>
+        <p>Receive and reply to messages from all your social channels without switching tabs.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🤖</div>
+        <h3>AI Chatbot</h3>
+        <p>Automate responses with an AI-powered chatbot that understands your customers.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📊</div>
+        <h3>Analytics</h3>
+        <p>Track message volume, response times, and channel performance in real time.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Real-time</h3>
+        <p>Instant notifications and live updates powered by WebSockets via Pusher.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <a href="index.html" class="logo" style="font-family:'Syne',sans-serif;font-weight:800;font-size:1rem;">C Communik</a>
+    <div class="footer-links">
+      <a href="privacy.html">Privacy Policy</a>
+      <a href="terms.html">Terms of Service</a>
+    </div>
+    <span style="color:var(--muted);font-size:0.82rem;">© 2026 Communik. All rights reserved.</span>
+  </footer>
+
+  <script>
+    function handleLogin() {
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      if (!email || !password) {
+        alert('Veuillez remplir tous les champs.');
+        return;
+      }
+      window.location.href = 'dashboard.html';
+    }
+    document.getElementById('password').addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') handleLogin();
+    });
+  </script>
 
 </body>
 </html>
