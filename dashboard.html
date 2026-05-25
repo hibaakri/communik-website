@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard — Communik</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #0a0a0f; --surface: #13131a; --border: rgba(255,255,255,0.08);
+      --text: #f0f0f5; --muted: #7a7a90; --accent: #6c63ff; --accent2: #ff6584;
+      --green: #22c55e; --yellow: #facc15; --red: #f87171;
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; }
+
+    /* SIDEBAR */
+    .sidebar {
+      width: 240px; min-height: 100vh; background: var(--surface);
+      border-right: 1px solid var(--border); padding: 1.5rem 1.2rem;
+      display: flex; flex-direction: column; gap: 0.4rem; flex-shrink: 0;
+    }
+    .logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.15rem; display: flex; align-items: center; gap: 0.5rem; margin-bottom: 1.5rem; color: var(--text); text-decoration: none; }
+    .logo-icon { width: 30px; height: 30px; background: var(--accent); border-radius: 7px; display: flex; align-items: center; justify-content: center; font-size: 0.9rem; color: #fff; font-weight: 800; }
+    .nav-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.6rem 0.9rem; border-radius: 9px; color: var(--muted); font-size: 0.88rem; cursor: pointer; transition: all 0.15s; text-decoration: none; }
+    .nav-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .nav-item.active { background: rgba(108,99,255,0.15); color: var(--accent); }
+    .nav-icon { width: 18px; text-align: center; }
+    .sidebar-section { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); padding: 0.8rem 0.9rem 0.3rem; margin-top: 0.5rem; }
+
+    /* CHANNEL BADGES in sidebar */
+    .channel-item { display: flex; align-items: center; gap: 0.7rem; padding: 0.5rem 0.9rem; border-radius: 9px; color: var(--muted); font-size: 0.85rem; cursor: pointer; transition: all 0.15s; }
+    .channel-item:hover { background: rgba(255,255,255,0.05); color: var(--text); }
+    .channel-dot { width: 8px; height: 8px; border-radius: 50%; }
+    .dot-fb { background: #1877f2; } .dot-ig { background: #e1306c; }
+    .dot-wa { background: #25d366; } .dot-tg { background: #2aabee; }
+    .dot-tt { background: #ff0050; }
+    .badge { margin-left: auto; background: var(--accent); color: #fff; font-size: 0.7rem; padding: 0.15rem 0.45rem; border-radius: 20px; }
+
+    /* MAIN */
+    .main { flex: 1; padding: 2rem 2.5rem; overflow-y: auto; }
+    .page-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 2rem; }
+    .page-header h1 { font-family: 'Syne', sans-serif; font-size: 1.6rem; font-weight: 800; }
+    .page-header p { color: var(--muted); font-size: 0.88rem; margin-top: 0.2rem; }
+    .user-pill { display: flex; align-items: center; gap: 0.6rem; background: var(--surface); border: 1px solid var(--border); padding: 0.4rem 0.9rem 0.4rem 0.4rem; border-radius: 30px; font-size: 0.85rem; cursor: pointer; }
+    .avatar { width: 28px; height: 28px; background: var(--accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.75rem; font-weight: 700; color: #fff; }
+
+    /* STATS */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.2rem; margin-bottom: 2rem; }
+    .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 1.4rem; }
+    .stat-label { font-size: 0.78rem; color: var(--muted); margin-bottom: 0.5rem; }
+    .stat-value { font-family: 'Syne', sans-serif; font-size: 1.9rem; font-weight: 800; }
+    .stat-sub { font-size: 0.75rem; color: var(--green); margin-top: 0.3rem; }
+
+    /* TIKTOK CONNECTED BANNER */
+    .tiktok-banner {
+      background: linear-gradient(135deg, rgba(255,0,80,0.12), rgba(0,242,234,0.08));
+      border: 1px solid rgba(255,0,80,0.25); border-radius: 14px;
+      padding: 1.2rem 1.5rem; margin-bottom: 2rem;
+      display: flex; align-items: center; gap: 1rem;
+    }
+    .tt-icon-wrap { width: 40px; height: 40px; background: #010101; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .tiktok-banner h3 { font-family: 'Syne', sans-serif; font-size: 0.95rem; font-weight: 700; }
+    .tiktok-banner p { color: var(--muted); font-size: 0.82rem; margin-top: 0.2rem; }
+    .connected-pill { margin-left: auto; background: rgba(34,197,94,0.15); color: var(--green); border: 1px solid rgba(34,197,94,0.3); padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.78rem; font-weight: 500; flex-shrink: 0; }
+
+    /* MESSAGES */
+    .section-title { font-family: 'Syne', sans-serif; font-size: 1rem; font-weight: 700; margin-bottom: 1rem; }
+    .messages-list { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; overflow: hidden; }
+    .message-row { display: flex; align-items: center; gap: 1rem; padding: 1rem 1.2rem; border-bottom: 1px solid var(--border); cursor: pointer; transition: background 0.15s; }
+    .message-row:last-child { border-bottom: none; }
+    .message-row:hover { background: rgba(255,255,255,0.03); }
+    .msg-avatar { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; font-weight: 700; color: #fff; flex-shrink: 0; }
+    .msg-info { flex: 1; min-width: 0; }
+    .msg-name { font-size: 0.88rem; font-weight: 500; }
+    .msg-preview { font-size: 0.8rem; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 0.15rem; }
+    .msg-meta { text-align: right; flex-shrink: 0; }
+    .msg-time { font-size: 0.75rem; color: var(--muted); }
+    .msg-unread { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin: 0.3rem 0 0 auto; }
+    .channel-tag { font-size: 0.7rem; padding: 0.15rem 0.5rem; border-radius: 10px; margin-top: 0.2rem; display: inline-block; }
+    .tag-tt { background: rgba(255,0,80,0.15); color: #ff6090; }
+    .tag-ig { background: rgba(225,48,108,0.15); color: #e1306c; }
+    .tag-fb { background: rgba(24,119,242,0.15); color: #5b9cf6; }
+    .tag-wa { background: rgba(37,211,102,0.15); color: #25d366; }
+
+    @media (max-width: 900px) {
+      .sidebar { display: none; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <a href="index.html" class="logo">
+      <span class="logo-icon">C</span> Communik
+    </a>
+
+    <a href="dashboard.html" class="nav-item active">
+      <span class="nav-icon">📥</span> Inbox
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">📊</span> Analytics
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">🤖</span> AI Chatbot
+    </a>
+    <a href="#" class="nav-item">
+      <span class="nav-icon">⚙️</span> Settings
+    </a>
+
+    <div class="sidebar-section">Channels</div>
+    <div class="channel-item"><span class="channel-dot dot-fb"></span> Facebook <span class="badge">3</span></div>
+    <div class="channel-item"><span class="channel-dot dot-ig"></span> Instagram <span class="badge">7</span></div>
+    <div class="channel-item"><span class="channel-dot dot-wa"></span> WhatsApp</div>
+    <div class="channel-item"><span class="channel-dot dot-tg"></span> Telegram <span class="badge">2</span></div>
+    <div class="channel-item"><span class="channel-dot dot-tt"></span> TikTok <span class="badge">5</span></div>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="page-header">
+      <div>
+        <h1>Unified Inbox</h1>
+        <p>All your messages, one place.</p>
+      </div>
+      <div class="user-pill">
+        <div class="avatar">H</div>
+        Hiba Akri
+      </div>
+    </div>
+
+    <!-- STATS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Total Messages</div>
+        <div class="stat-value">1,284</div>
+        <div class="stat-sub">↑ 12% this week</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Unread</div>
+        <div class="stat-value" style="color:var(--accent)">17</div>
+        <div class="stat-sub" style="color:var(--yellow)">Needs attention</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Channels Connected</div>
+        <div class="stat-value">5</div>
+        <div class="stat-sub">All active ✓</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Avg. Response</div>
+        <div class="stat-value">4m</div>
+        <div class="stat-sub">↓ 30s faster</div>
+      </div>
+    </div>
+
+    <!-- TIKTOK CONNECTED BANNER -->
+    <div class="tiktok-banner">
+      <div class="tt-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="white">
+          <path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.69a8.17 8.17 0 004.78 1.52V6.74a4.85 4.85 0 01-1.01-.05z"/>
+        </svg>
+      </div>
+      <div>
+        <h3>TikTok Connected</h3>
+        <p>Your TikTok account is linked. Messages and DMs are syncing.</p>
+      </div>
+      <div class="connected-pill">● Connected</div>
+    </div>
+
+    <!-- MESSAGES -->
+    <div class="section-title">Recent Messages</div>
+    <div class="messages-list">
+      <div class="message-row">
+        <div class="msg-avatar" style="background:#ff0050;">T</div>
+        <div class="msg-info">
+          <div class="msg-name">@tiktoker_pro <span class="channel-tag tag-tt">TikTok</span></div>
+          <div class="msg-preview">Votre produit est incroyable ! Est-ce que vous livrez en France ?</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">2 min</div><div class="msg-unread"></div></div>
+      </div>
+      <div class="message-row">
+        <div class="msg-avatar" style="background:#e1306c;">I</div>
+        <div class="msg-info">
+          <div class="msg-name">@influencer_sarah <span class="channel-tag tag-ig">Instagram</span></div>
+          <div class="msg-preview">Salut ! Je voudrais collaborer avec vous pour une campagne...</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">15 min</div><div class="msg-unread"></div></div>
+      </div>
+      <div class="message-row">
+        <div class="msg-avatar" style="background:#1877f2;">F</div>
+        <div class="msg-info">
+          <div class="msg-name">Mohamed Amine <span class="channel-tag tag-fb">Facebook</span></div>
+          <div class="msg-preview">Bonjour, j'ai une question concernant ma commande #4521</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">1h</div></div>
+      </div>
+      <div class="message-row">
+        <div class="msg-avatar" style="background:#ff0050;">T</div>
+        <div class="msg-info">
+          <div class="msg-name">@dance_creator <span class="channel-tag tag-tt">TikTok</span></div>
+          <div class="msg-preview">Merci pour votre réponse rapide 🙏 Je vais commander maintenant</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">2h</div><div class="msg-unread"></div></div>
+      </div>
+      <div class="message-row">
+        <div class="msg-avatar" style="background:#25d366;">W</div>
+        <div class="msg-info">
+          <div class="msg-name">Leila Bensalem <span class="channel-tag tag-wa">WhatsApp</span></div>
+          <div class="msg-preview">Est-ce que vous avez ce modèle en rouge ?</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">3h</div></div>
+      </div>
+      <div class="message-row">
+        <div class="msg-avatar" style="background:#ff0050;">T</div>
+        <div class="msg-info">
+          <div class="msg-name">@business_tunisia <span class="channel-tag tag-tt">TikTok</span></div>
+          <div class="msg-preview">Super contenu ! Vous acceptez les partenariats ?</div>
+        </div>
+        <div class="msg-meta"><div class="msg-time">5h</div><div class="msg-unread"></div></div>
+      </div>
+    </div>
+  </main>
+
+</body>
+</html>
